@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{layouts/head :: head}">
+</head>
+
+<body>
+	<header th:insert="~{layouts/header :: header}"></header>
+	<div class="container">
+		<form th:action="@{/movie}" th:object="${movie}" method="post" class="col-md-8 offset-md-2">
+			<h2 th:text="${title}" class="py-4"></h2>
+			<div class="row mb-3">
+				<label for="inputName" class="col-sm-2 col-form-label">Name</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="inputName" th:field="*{name}">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="inputReleaseDate" class="col-sm-2 col-form-label">Release Date</label>
+				<div class="col-sm-10">
+					<input type="date" class="form-control" id="inputReleaseDate" th:field="*{releaseDate}">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="gender" class="col-sm-2 col-form-label">Genders</label>
+				<div class="col-sm-10">
+					<select class="form-select" th:field="*{gender}">
+						<option th:each="gender : ${genders}" th:text="${gender.name}" th:value="${gender.id}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="protagonists" class="col-sm-2 col-form-label">Actor</label>
+				<div class="col-sm-10">
+					<select class="form-select" th:field="*{protagonists}" onchange="actorSelected(this);">
+						<option th:text="'Seleccionar un actor'" th:value="0"></option>
+						<option th:each="actor : ${actors}" th:text="${actor.name}" th:value="${actor.id}" th:data-url="${actor.imageUrl}"></option>
+					</select>
+				</div>
+			</div>
+			<input id="ids" name="ids" type="hidden">
+			<div id="actors_container" class="row">
+				
+			</div>
+			<button type="submit" class="btn btn-primary float-end">Save</button>
+		</form>
+	</div>
+</body>
+
+</html>
