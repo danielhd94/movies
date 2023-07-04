@@ -7,7 +7,26 @@
 <body>
 	<header th:insert="~{layouts/header :: header}"></header>
 	<div class="container">
-		<h2>Soy Home</h2>
+		<div class="row row-cols-1 row-cols-md-6 g-4">
+			<div class="col" th:each="movie : ${movies}">
+				<div class="card">
+					<img th:src="${movie.image == null or movie.image.isEmpty() ? '/file?n=_default.jpeg' : '/file?n=' + movie.image}" class="card-img-top" alt="movie image">
+					<div class="card-body">
+						<h5 class="card-title" th:text="${movie.name}"></h5>
+						<p class="card-text" th:text="${movie.gender.name}"></p>
+						<div class="actor-catalog-container" th:each="protagonist : ${movie.protagonists}">
+							<div class="actor-catalog-image" th:style="'background-image: url('+ ${protagonist.imageUrl} +')'">
+						
+								
+							</div>
+							<div class="actor-catalog-text" th:text="${protagonist.name}">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 

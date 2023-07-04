@@ -18,6 +18,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "movies")
@@ -29,19 +31,33 @@ public class Movie implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty(message = "El nombre no puede ser vacio")
 	private String name;
 
-	@Column(name = "release-date")
+	@Column(name = "release_date")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "La fecha de estreno no puede estar vacio")
 	private Date releaseDate;
 
+	@NotNull(message = "El genero no puede estar vacio")
 	@OneToOne
 	private Gender gender;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "actor_id")
 	private List<Actor> protagonists;
+	
+	private String image;
+	
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	public Long getId() {
 		return id;

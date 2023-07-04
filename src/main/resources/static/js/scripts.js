@@ -50,6 +50,20 @@ function deleteActor(btn){
 }
 
 
+function previsualization() {
+	let reader = new FileReader();
+	const image = document.getElementById('file').files[0];
+	const preview = document.getElementById('preview');
+	
+	reader.readAsDataURL(image);
+	
+	reader.onload = function(e){
+		preview.classList.remove("d-none");
+		preview.style.backgroundImage = 'url("'+ e.target.result +'")';
+	}
+}
+
+
 
 
 

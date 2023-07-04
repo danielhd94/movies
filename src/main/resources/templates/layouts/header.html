@@ -16,7 +16,7 @@
 						<a class="nav-link" href="/movie">Nueva película</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/list">administrar</a>
+						<a class="nav-link" href="/list">Administrar</a>
 					</li>
 				</ul>
 				<form class="d-flex" role="search">
@@ -26,4 +26,7 @@
 			</div>
 		</div>
 	</nav>
+	<div th:if="${msj != null}"  th:text="${msj}" th:class="${messageType != null ? 'alert alert-'+messageType : 'alert'}">
+		
+	</div>
 </header>
