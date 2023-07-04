@@ -3,6 +3,8 @@ package com.danielhd.movies.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.danielhd.movies.dao.IMovieRepository;
@@ -34,6 +36,11 @@ public class MovieService implements IMoviesService {
 	public void delete(Long id) {
 		movieRepositry.deleteById(id);
 		
+	}
+
+	@Override
+	public Page<Movie> findAll(Pageable pageable) {
+		return movieRepositry.findAll(pageable);
 	}
 
 }

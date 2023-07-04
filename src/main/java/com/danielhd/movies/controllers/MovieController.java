@@ -3,7 +3,10 @@ package com.danielhd.movies.controllers;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -109,8 +112,19 @@ public class MovieController {
 	}
 
 	@GetMapping({ "/", "/home", "/index" })
-	public String home(Model model) {
-		model.addAttribute("movies", service.findAll());
+	public String home(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") Integer page) {
+		PageRequest pr = PageRequest.of(page, 6);
+		Page<Movie> moviePage = service.findAll(pr);
+		
+		model.addAttribute("movies", moviePage.getContent());
+		
+		if(moviePage.getTotalPages() > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, moviePage.getTotalPages()).boxed().toList();
+			model.addAttribute("pages", pages);
+		}
+		
+		model.addAttribute("current", page + 1);
+		model.addAttribute("title", "Movies list");
 		/*
 		 * model.addAttribute("msj", "La app está en mantenimiento");
 		 * model.addAttribute("messageType", "danger");
@@ -123,8 +137,8 @@ public class MovieController {
 			@RequestParam(required = false) String messageType) {
 		model.addAttribute("title", "movie list");
 		model.addAttribute("movies", service.findAll());
-		
-		if(!"".equals(messageType) && !"".equals(msj)) {
+
+		if (!"".equals(messageType) && !"".equals(msj)) {
 			model.addAttribute("msj", msj);
 			model.addAttribute("messageType", messageType);
 		}
